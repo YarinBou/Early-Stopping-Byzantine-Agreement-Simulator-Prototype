@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(if not exist \"C:\\Users\\PC\\Desktop\\Final_Project\\final-project-code\\docs\" mkdir \"C:\\Users\\PC\\Desktop\\Final_Project\\final-project-code\\docs\")",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
