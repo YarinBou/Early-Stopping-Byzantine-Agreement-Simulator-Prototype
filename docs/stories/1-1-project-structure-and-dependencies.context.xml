@@ -1,0 +1,111 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1.1</storyId>
+    <title>Project Structure & Dependencies</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/story-1.1-project-structure-and-dependencies.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a researcher</asA>
+    <iWant>a well-organized Python project with version-locked dependencies</iWant>
+    <soThat>I have a solid foundation for Byzantine Agreement implementation with reproducible builds</soThat>
+    <tasks>
+      - [ ] Create Python 3.10+ project structure with standard layout (src/, tests/, experiments/, docs/)
+      - [ ] Create requirements.txt with version-locked dependencies: PyNaCl, pytest, pandas, matplotlib, asyncio
+      - [ ] Write README.md with quickstart setup instructions (virtualenv creation, dependency installation)
+      - [ ] Configure .gitignore for Python projects
+      - [ ] Create basic pytest configuration file (pytest.ini)
+      - [ ] Verify project runs pytest successfully (even with no tests initially)
+      - [ ] Configure code formatting tools (black, flake8 - optional in MVP)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1. Python 3.10+ project structure created with standard layout (`src/`, `tests/`, `experiments/`, `docs/`)
+    2. `requirements.txt` with version-locked dependencies: PyNaCl, pytest, pandas, matplotlib, asyncio
+    3. `README.md` with quickstart setup instructions (virtualenv creation, dependency installation)
+    4. `.gitignore` configured for Python projects
+    5. Basic pytest configuration file (`pytest.ini`) created
+    6. Project runs `pytest` successfully (even with no tests initially)
+    7. Code formatting tools configured (black, flake8 recommended but optional in MVP)
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture/complete-project-structure.md</path>
+        <title>Complete Project Structure</title>
+        <section>Project Structure</section>
+        <snippet>Defines src/ layout with ba_simulator package containing transport/, scheduling/, protocols/, controller/, adversaries/, validation/, baselines/, and experiments/ modules. Tests mirror src/ structure with unit/, integration/, and property/ subdirectories.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Epic 1 implements the transport/ module with message.py, serialization.py, crypto.py, and validation.py. Project structure follows src/ layout with version-locked requirements.txt ensuring reproducible builds.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture/development-environment.md</path>
+        <title>Development Environment</title>
+        <section>Environment Setup</section>
+        <snippet>Python 3.10+ required with virtual environment for dependency isolation. Standard pytest configuration with conftest.py for fixtures. Black and flake8 for code quality.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <!-- No existing code - this is the first story establishing the foundation -->
+    </code>
+    <dependencies>
+      <python>
+        <package name="PyNaCl" purpose="Ed25519 cryptographic signing and verification"/>
+        <package name="pytest" purpose="Unit and integration testing framework"/>
+        <package name="pandas" purpose="Experimental data analysis and metrics"/>
+        <package name="matplotlib" purpose="Visualization and publication-quality plots"/>
+        <package name="asyncio" purpose="Asynchronous round scheduling (built-in, Python 3.10+)"/>
+        <package name="black" purpose="Code formatting (optional but recommended)"/>
+        <package name="flake8" purpose="Linting and style checking (optional)"/>
+      </python>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Use src/ layout (not flat structure) to separate source code from tests and experiments
+    - Version-lock all dependencies in requirements.txt for reproducible builds
+    - Python 3.10+ required for modern type hints and asyncio features
+    - Standard directory names: src/, tests/, experiments/, docs/ (match architecture spec exactly)
+    - Package name: ba_simulator (as defined in architecture)
+    - No deviation from architectural patterns: strict adherence to complete-project-structure.md
+    - .gitignore must cover: __pycache__/, *.pyc, .pytest_cache/, venv/, experiments/results/, .DS_Store
+    - README.md must include: project overview, setup instructions, quick start guide
+    - pytest.ini should configure test discovery and default options
+  </constraints>
+
+  <interfaces>
+    <!-- No interfaces yet - this is foundational setup story -->
+    <note>Subsequent stories will build on this structure. Story 1.2 will create the first module (transport/message.py)</note>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing framework: pytest with test discovery (tests/ directory mirrors src/ structure). Minimum 80% code coverage target for all modules. Unit tests in tests/unit/, integration tests in tests/integration/, property-based tests in tests/property/. Use conftest.py for shared fixtures and test configuration. Tests should be deterministic and reproducible.
+    </standards>
+    <locations>
+      - tests/unit/ (unit tests mirroring src/ structure)
+      - tests/integration/ (cross-module integration tests)
+      - tests/property/ (property-based tests for Byzantine Agreement properties)
+      - tests/conftest.py (shared fixtures)
+    </locations>
+    <ideas>
+      <idea ac="1">Verify directory structure exists: src/ba_simulator/, tests/, experiments/, docs/</idea>
+      <idea ac="2">Verify requirements.txt contains all required packages with versions</idea>
+      <idea ac="3">Verify README.md exists and contains setup instructions</idea>
+      <idea ac="4">Verify .gitignore contains Python-specific patterns</idea>
+      <idea ac="5">Verify pytest.ini exists and pytest runs without errors</idea>
+      <idea ac="6">Integration test: Run pytest --collect-only and verify test discovery works</idea>
+      <idea ac="7">Verify black/flake8 configuration files exist if optional tooling included</idea>
+    </ideas>
+  </tests>
+</story-context>
