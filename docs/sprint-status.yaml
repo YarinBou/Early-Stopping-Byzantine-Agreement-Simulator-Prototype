@@ -37,9 +37,9 @@ story_location: "{project-root}/docs/stories"
 
 development_status:
   epic-1: contexted
-  1-1-project-structure-and-dependencies: review
-  1-2-message-schema-data-classes: drafted
-  1-3-json-serialization-with-canonical-ordering: drafted
+  1-1-project-structure-and-dependencies: done
+  1-2-message-schema-data-classes: done
+  1-3-json-serialization-with-canonical-ordering: done
   1-4-cryptographic-key-generation-and-management: drafted
   1-5-message-signing-and-verification-integration: drafted
   1-6-message-acceptance-rules-schema-validation: drafted

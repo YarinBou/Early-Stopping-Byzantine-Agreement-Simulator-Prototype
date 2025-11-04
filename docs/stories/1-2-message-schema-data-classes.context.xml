@@ -1,0 +1,177 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1.2</storyId>
+    <title>Message Schema Data Classes</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/story-1.2-message-schema-data-classes.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a protocol developer</asA>
+    <iWant>canonical message data structures with strict type enforcement</iWant>
+    <soThat>all protocol messages follow the schema: `(ssid, round, protocol_id, phase, sender_id, value|digest, aux, signature)`</soThat>
+    <tasks>
+1. Create `message.py` module with `Message` dataclass
+2. Define fields with proper type hints: ssid, round, protocol_id, phase, sender_id, value, digest, aux, signature
+3. Implement `__post_init__` validation
+4. Add `to_dict()` helper method
+5. Add `signing_payload()` method
+6. Write comprehensive unit tests
+7. Add docstrings
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+1. Create `message.py` module with `Message` dataclass
+2. Fields: `ssid` (str), `round` (int), `protocol_id` (str), `phase` (str), `sender_id` (int), `value` (Any), `digest` (Optional[bytes]), `aux` (Dict), `signature` (bytes)
+3. Type hints enforced for all fields
+4. `__post_init__` validation ensuring required fields are non-null
+5. Helper method `to_dict()` for serialization preparation
+6. Helper method `signing_payload()` returning canonical bytes for signing (excludes signature field)
+7. Unit tests covering: valid message creation, type validation, signing payload generation
+8. Docstrings explaining Byzantine Agreement message semantics
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification - Foundation Infrastructure</title>
+        <section>Data Models and Contracts - Primary Data Model: Message</section>
+        <snippet>Defines canonical Message dataclass with exact schema: ssid (str), round (int), protocol_id (str), phase (str), sender_id (int), value (Any), digest (Optional[bytes]), aux (Dict), signature (bytes). Includes signing_payload(), to_dict(), and verify_signature() helper methods with strict type enforcement and __post_init__ validation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification - Foundation Infrastructure</title>
+        <section>Detailed Design - Services and Modules</section>
+        <snippet>message.py module is foundational with no internal dependencies. Defines canonical message schema with strict type enforcement. Provides Message dataclass instances as outputs. All subsequent modules (serialization, crypto, validation) depend on this message schema.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture - Complete Project Structure</title>
+        <section>src/ba_simulator/transport/</section>
+        <snippet>Message.py resides in transport layer (Epic 1). Establishes foundational message schema that all protocol implementations build upon. Uses Python 3.10+ dataclasses with strict type hints following architectural naming patterns (snake_case modules, PascalCase classes).</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 1.2: Message Schema Data Classes</section>
+        <snippet>As a protocol developer, I want canonical message data structures with strict type enforcement, so that all protocol messages follow the schema: (ssid, round, protocol_id, phase, sender_id, value|digest, aux, signature). Creates the bedrock for Byzantine Agreement research with authenticated, deterministic message handling.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/ba_simulator/transport/__init__.py</path>
+        <kind>module</kind>
+        <symbol>transport</symbol>
+        <lines>1</lines>
+        <reason>Empty transport module exists - message.py will be added here as the foundational dataclass</reason>
+      </artifact>
+      <artifact>
+        <path>tests/test_project_structure.py</path>
+        <kind>test</kind>
+        <symbol>TestProjectStructure</symbol>
+        <lines>19-77</lines>
+        <reason>Existing test patterns for project structure validation - provides template for Story 1.2 unit tests</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <python>
+        <package name="dataclasses" version="built-in" note="Python 3.10+ dataclass decorator for Message class"/>
+        <package name="typing" version="built-in" note="Type hints: Any, Optional, Dict for field annotations"/>
+      </python>
+      <external>
+        <package name="PyNaCl" version="1.5.0" note="Ed25519 signatures (used in verify_signature method - Story 1.5 integration)"/>
+        <package name="pytest" version="7.4.3" note="Testing framework for unit tests"/>
+      </external>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Field names must match PRD specification exactly: ssid, round, protocol_id, phase, sender_id, value, digest, aux, signature (no deviations allowed)</constraint>
+    <constraint>Use PascalCase for class name (Message), snake_case for module name (message.py) per architecture naming patterns</constraint>
+    <constraint>All fields must have strict type hints enforced (str, int, Any, Optional[bytes], Dict, bytes)</constraint>
+    <constraint>Signature field must be exactly 64 bytes (Ed25519 signature length) when populated</constraint>
+    <constraint>__post_init__ must validate required fields are non-null (raise ValueError for missing required fields)</constraint>
+    <constraint>Module must have NO internal dependencies - foundational layer for all other transport components</constraint>
+    <constraint>signing_payload() must exclude signature field to prevent circular dependency during signing</constraint>
+    <constraint>Docstrings must explain Byzantine Agreement message semantics, not just implementation details</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Message.signing_payload()</name>
+      <kind>method</kind>
+      <signature>def signing_payload(self) -> bytes</signature>
+      <path>src/ba_simulator/transport/message.py</path>
+      <description>Returns canonical bytes for cryptographic signing, excluding signature field. Used by Story 1.5 signing integration.</description>
+    </interface>
+    <interface>
+      <name>Message.to_dict()</name>
+      <kind>method</kind>
+      <signature>def to_dict(self) -> Dict[str, Any]</signature>
+      <path>src/ba_simulator/transport/message.py</path>
+      <description>Converts Message to dictionary for JSON serialization (Story 1.3 integration)</description>
+    </interface>
+    <interface>
+      <name>Message.__post_init__()</name>
+      <kind>method</kind>
+      <signature>def __post_init__(self) -> None</signature>
+      <path>src/ba_simulator/transport/message.py</path>
+      <description>Dataclass post-initialization hook for field validation. Enforces non-null constraints on required fields.</description>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+Unit tests use pytest framework with standard structure. Tests reside in tests/unit/transport/ mirroring src/ba_simulator/transport/ structure. Target ≥80% line coverage per AC-1.10. Use pytest fixtures for test data (valid/invalid messages, key pairs). Follow naming convention: test_module_name.py for unit tests. Each test function starts with test_ prefix. Use descriptive assertions with helpful error messages. Critical paths (acceptance pipeline, security) require 100% coverage.
+    </standards>
+    <locations>
+      <location>tests/unit/transport/test_message.py</location>
+      <location>tests/conftest.py (shared fixtures)</location>
+    </locations>
+    <ideas>
+      <test id="AC1" criteria="Create `message.py` module with `Message` dataclass">
+        <idea>Test: Import Message class successfully from ba_simulator.transport.message</idea>
+        <idea>Test: Message class has @dataclass decorator applied</idea>
+      </test>
+      <test id="AC2" criteria="Fields with correct types">
+        <idea>Test: Create valid Message with all fields, verify each field type matches specification</idea>
+        <idea>Test: Verify ssid is str, round is int, protocol_id is str, phase is str, sender_id is int</idea>
+        <idea>Test: Verify value is Any, digest is Optional[bytes], aux is Dict, signature is bytes</idea>
+      </test>
+      <test id="AC3" criteria="Type hints enforced for all fields">
+        <idea>Test: Use typing.get_type_hints() to verify all fields have proper annotations</idea>
+        <idea>Test: Verify Message.__annotations__ contains all expected field types</idea>
+      </test>
+      <test id="AC4" criteria="__post_init__ validation ensuring required fields are non-null">
+        <idea>Test: Create Message with None for required field (ssid), expect ValueError</idea>
+        <idea>Test: Create Message with missing signature, expect validation error</idea>
+        <idea>Test: Valid message with all fields populated passes __post_init__ without error</idea>
+      </test>
+      <test id="AC5" criteria="Helper method to_dict() for serialization preparation">
+        <idea>Test: Call to_dict() on valid message, verify returns Dict[str, Any]</idea>
+        <idea>Test: Verify to_dict() output contains all field names as keys</idea>
+        <idea>Test: Verify to_dict() preserves field values correctly (round-trip dictionary)</idea>
+      </test>
+      <test id="AC6" criteria="Helper method signing_payload() returning canonical bytes">
+        <idea>Test: Call signing_payload() on message, verify returns bytes type</idea>
+        <idea>Test: Verify signing_payload() excludes signature field from output</idea>
+        <idea>Test: Same message produces identical signing_payload() bytes (determinism)</idea>
+        <idea>Test: Different messages produce different signing_payload() bytes</idea>
+      </test>
+      <test id="AC7" criteria="Unit tests covering valid message creation, type validation, signing payload">
+        <idea>Test: Create message with valid data for all protocol_ids (CoD, GDA, PoP, BA)</idea>
+        <idea>Test: Create message with different phases (SEND, ECHO, READY, etc.)</idea>
+        <idea>Test: Edge case - round=0, sender_id=0 (valid boundary values)</idea>
+        <idea>Test: Edge case - empty aux dict {}, None digest (valid optional)</idea>
+      </test>
+      <test id="AC8" criteria="Docstrings explaining Byzantine Agreement message semantics">
+        <idea>Test: Verify Message class has non-empty __doc__ attribute</idea>
+        <idea>Test: Verify key methods (signing_payload, to_dict) have docstrings</idea>
+        <idea>Test: Check docstring mentions "Byzantine Agreement" or "protocol message"</idea>
+      </test>
+    </ideas>
+  </tests>
+</story-context>

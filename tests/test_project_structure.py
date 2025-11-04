@@ -4,12 +4,9 @@ Test suite for Story 1.1: Project Structure & Dependencies
 This test suite verifies all acceptance criteria for the project setup story.
 """
 
-import os
 import subprocess
 import sys
 from pathlib import Path
-
-import pytest
 
 
 # Get project root (parent of tests directory)
@@ -160,8 +157,9 @@ class TestGitignore:
             assert pattern in gitignore_content, f"Pattern '{pattern}' not found in .gitignore"
 
         # Check that Python compiled files are covered (*.pyc or *.py[cod])
-        assert "*.pyc" in gitignore_content or "*.py[cod]" in gitignore_content, \
-            "Python compiled files pattern (*.pyc or *.py[cod]) not found in .gitignore"
+        assert (
+            "*.pyc" in gitignore_content or "*.py[cod]" in gitignore_content
+        ), "Python compiled files pattern (*.pyc or *.py[cod]) not found in .gitignore"
 
 
 class TestPytestConfiguration:

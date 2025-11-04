@@ -4,9 +4,15 @@ Shared pytest fixtures and configuration for Byzantine Agreement Simulator tests
 This module provides common fixtures used across unit, integration, and property tests.
 """
 
+import sys
+from pathlib import Path
 import pytest
 import asyncio
 from typing import Generator
+
+# Add src directory to Python path for imports
+PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 
 @pytest.fixture

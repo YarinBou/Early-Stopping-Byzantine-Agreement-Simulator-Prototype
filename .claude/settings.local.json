@@ -7,7 +7,13 @@
       "Bash(test -f \"C:\\Users\\PC\\Desktop\\Final_Project\\final-project-code\\docs\\PRD.md\")",
       "Bash(find:*)",
       "Bash(npx @kayvan/markdown-tree-parser:*)",
-      "Bash(pytest:*)"
+      "Bash(pytest:*)",
+      "Bash(test:*)",
+      "Bash(black --check:*)",
+      "Bash(flake8 src/ tests/)",
+      "Bash(python:*)",
+      "Bash(black:*)",
+      "Bash(flake8:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,45 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>4</storyId>
+    <title>Cryptographic Key Generation & Management</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/story-1.4-cryptographic-key-generation-and-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a simulated node</asA>
+    <iWant>Ed25519 key pair generation and management</iWant>
+    <soThat>I can sign messages and verify signatures using PyNaCl</soThat>
+    <tasks>
+      No explicit task breakdown provided in story file.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">Create `crypto.py` module with `NodeKeys` class</criterion>
+    <criterion id="AC2">`generate_keypair() -> (SigningKey, VerifyKey)` using PyNaCl Ed25519</criterion>
+    <criterion id="AC3">`NodeKeys` class storing `signing_key` (private) and `verify_key` (public)</criterion>
+    <criterion id="AC4">`sign(payload: bytes) -> bytes` method generating Ed25519 signatures</criterion>
+    <criterion id="AC5">`verify(payload: bytes, signature: bytes, verify_key: VerifyKey) -> bool` static method</criterion>
+    <criterion id="AC6">Signature verification returns False for invalid signatures (no exceptions for normal operation)</criterion>
+    <criterion id="AC7">Key serialization methods for test fixtures (optional but helpful)</criterion>
+    <criterion id="AC8">Unit tests covering: key generation, signing, verification success, verification failure, deterministic signatures</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>{{docs_artifacts}}</docs>
+    <code>{{code_artifacts}}</code>
+    <dependencies>{{dependencies_artifacts}}</dependencies>
+  </artifacts>
+
+  <constraints>{{constraints}}</constraints>
+  <interfaces>{{interfaces}}</interfaces>
+  <tests>
+    <standards>{{test_standards}}</standards>
+    <locations>{{test_locations}}</locations>
+    <ideas>{{test_ideas}}</ideas>
+  </tests>
+</story-context>
